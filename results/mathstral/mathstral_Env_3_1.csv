@@ -1,0 +1,3 @@
+User_Command,Path_Planning_Time,Execution_Time,Waypoint_Generation_Success_Rate,Path_Length,Collision_Detection_Event,Replanning_Rate
+Go to Room_number_plate_213,61.513,77.500,100.00%,30.587,0,0
+Go to Room_number_plate_203,89.425,48.407,300.00%,15.561,2,2

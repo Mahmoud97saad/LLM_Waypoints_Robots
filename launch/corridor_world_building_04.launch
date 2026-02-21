@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- ================= GAZEBO WORLD ================= -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/department.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <!-- ================= LOAD CONTROLLERS + PID GAINS ================= -->
+  <rosparam file="$(find ASSEMBLY_CAR)/config/controllers.yaml" command="load"/>
+
+  <!-- ================= ROBOT SPAWN POSE ================= -->
+  <arg name="x" default="0.0" />
+  <arg name="y" default="-3.0" />
+  <arg name="z" default="0.20" />
+  <arg name="roll" default="0.0"/>
+  <arg name="pitch" default="0.0"/>
+  <arg name="yaw" default="1.557343"/>
+
+  <!-- ================= LOAD ROBOT DESCRIPTION ================= -->
+  <param name="robot_description"
+         textfile="$(find ASSEMBLY_CAR)/urdf/ASSEMBLY_CAR.urdf" />
+
+  <!-- ================= ROBOT STATE PUBLISHER ================= -->
+  <node pkg="robot_state_publisher" type="robot_state_publisher"
+        name="robot_state_publisher_corridor" />
+
+  <!-- ================= SPAWN ASSEMBLY_CAR IN GAZEBO ================= -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
+        args="-urdf -model ASSEMBLY_CAR
+              -x $(arg x) -y $(arg y) -z $(arg z)
+              -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)
+              -param robot_description"
+        output="screen"/>
+
+  <!-- ================= START CONTROLLERS ================= -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner"
+        args="joint_state_controller diff_drive_controller"
+        output="screen"/>
+
+  <!-- ================= CMD_VEL REMAP (CRITICAL FIX) ================= -->
+  <node name="cmd_vel_remap" pkg="topic_tools" type="relay"
+        args="/cmd_vel /diff_drive_controller/cmd_vel" />
+
+  <!-- ================= ODOM REMAP ================= -->
+  <node name="odom_remap" pkg="topic_tools" type="relay"
+        args="/diff_drive_controller/odom /odom" />
+
+  <!-- ================= STATIC TF: map -> odom ================= -->
+  <node pkg="tf2_ros" type="static_transform_publisher"
+        name="map_to_odom"
+        args="0 0 0 0 0 0 map odom" />
+
+  <!-- ================= MAP SERVER ================= -->
+  <arg name="map_file" default="$(find turtlebot3_gazebo)/object_list/map_03.yaml" />
+  <node pkg="map_server" type="map_server"
+        name="map_server"
+        args="$(arg map_file)" />
+
+</launch>
