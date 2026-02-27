@@ -87,10 +87,15 @@ class LLMPathPlanner:
         try:
             with open(yaml_file_path, 'r') as file:
                 self.environment_data = yaml.safe_load(file)
+                # ADDED: Store raw YAML content for LLM prompts (rewind file pointer)
+                file.seek(0)
+                self.environment_data_yaml = file.read()
             rospy.logdebug(f"Loaded environment data from {yaml_file_path}")
         except Exception as e:
             rospy.logerr(f"Failed to load environment data from {yaml_file_path}: {e}")
             self.environment_data = None
+            self.environment_data_yaml = None  # ADDED: Set raw content to None on failure
+
 
     def odom_callback(self, data):
         rospy.logdebug("odom_callback invoked.")
@@ -228,33 +233,43 @@ class LLMPathPlanner:
             else:
                 rospy.logwarn(f"Received unknown replanning request: {replanning_request}")
 
-    def extract_target_room(self, command):
-        patterns = [
-            r"go to the ([\w_]+)",
-            r"navigate to the ([\w_]+)",
-            r"go to the ([\w\s_]+)",
-            r"navigate to the ([\w\s_]+)",
-            r"go to ([\w\s_]+)",
-            r"navigate to ([\w\s_]+)",
-            r"room number (\d+)",
-            r"room (\d+)",
-            r"main entrance",
-            r"([\w\s_]+)",
-        ]
 
-        for pattern in patterns:
-            match = re.search(pattern, command, re.IGNORECASE)
-            if match:
-                target = match.group(1).strip()
-                # Normalize the target: lowercase and replace spaces with underscores
-                normalized_target = target.lower().replace(' ', '_')
-                if normalized_target.isdigit():
-                    # Construct the full object name
-                    normalized_target = f"room_number_plate_{normalized_target}"
-                rospy.loginfo(f"Extracted and normalized target object name: {normalized_target}")
-                return normalized_target
-        rospy.logwarn("Failed to extract a target object from the command.")
-        return None
+    def extract_target_room(self, command):
+        # Prompt to Extract target
+        prompt = f"""You are a navigation assistant for a mobile robot operating in a U‑shaped corridor map consisting of three corridors: 
+        Main Corridor, Corridor_01, and Corridor_02.
+
+    Your task is to extract the exact target name from the provided YAML file content based on a natural language command. 
+    The command may be in any language (e.g., "go to room 101" in English, "ve a la habitación 101" in Spanish, "allez à la chambre 101" in French). 
+    You must output the corresponding object name **exactly** as it appears in the YAML file (always in English).
+
+Rules:
+1 - The YAML content describes the environment and contains objects with a "name" field (e.g., Room_number_plate_101, Wall_Corridor01_Left).
+2 - Identify the object that corresponds to the room number mentioned in the command.
+3 - Output **only** the exact value of the "name" field for that object.
+4 - Do **not** include any additional text, explanations, punctuation, or formatting.
+    YAML content:{self.environment_data_yaml}
+     
+    User command: {command}
+
+    Matching object name:""" 
+
+        try:
+            response = self.llm_client.chat(
+                model= 'llama3.1',
+                messages=[
+                    {"role": "user", "content": prompt}
+                ]
+            )  
+
+            answer = response['message']['content']
+            rospy.loginfo(f"Target: {answer}")   
+            return answer
+        except Exception as e:
+            rospy.logerr(f"Failed to determine the Target: {e}")
+            return None
+
+    
 
     def find_target_object(self, target_object_name):
         rospy.loginfo(f"Searching for target object: {target_object_name}")
