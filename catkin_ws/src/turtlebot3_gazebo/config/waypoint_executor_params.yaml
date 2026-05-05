@@ -1,0 +1,32 @@
+# waypoint_executor_params.yaml
+
+# Movement Parameters
+linear_speed: 1.096875       # meters per second (25% lower than the previous 1.4625 m/s)
+angular_speed: 4.05          # radians per second (25% lower than the previous 5.4 rad/s)
+distance_threshold: 0.1      # meters to consider waypoint as reached
+angle_threshold: 0.087       # radians (~5 degrees) for angular alignment
+waypoint_pause: 0.1          # seconds to pause after reaching each waypoint
+
+# Obstacle Detection Parameters
+obstacle_angle_range: 1.05    # radians (~60 degrees) front sector for obstacle detection
+self_obstacle_distance: 0.2   # meters to ignore obstacles too close to robot's center
+critical_distance: 0.45       # meters to trigger emergency stop
+obstacle_memory_radius: 0.80  # minimum remembered avoidance radius around each detected unknown obstacle
+obstacle_memory_extra_buffer: 0.45  # added to critical_distance to inflate each detected obstacle for replanning
+waypoint_obstacle_clearance_margin: 0.00  # extra planning clearance beyond remembered obstacle radius for future waypoints and segments
+robot_obstacle_safety_margin: 0.18  # extra path-validation margin for the robot body without changing remembered obstacle radius
+detour_wall_margin: 0.55  # minimum clearance from corridor walls when generating detour waypoints
+max_remembered_obstacles: 20  # maximum detected obstacle positions kept in memory
+obstacle_merge_distance: 1.15  # detections within this distance are consolidated into one remembered obstacle
+
+# Replanning Parameters
+max_replans: 3                # maximum number of replanning attempts
+replan_cooldown: 2.0          # seconds to wait before attempting to replan again
+resume_clear_required: 5      # minimum number of consecutive clear scans before leaving resume mode
+resume_clear_duration: 1.0    # seconds of continuous clear readings required before normal navigation resumes
+resume_obstacle_clearance_buffer: 0.15  # extra clearance beyond remembered obstacle radius before resume completes
+new_command_goal_clear_max_duration: 12.0  # maximum time to keep suppressing front detections while the robot clears the previous goal area
+stuck_detection_window: 2.5   # seconds of commanded forward motion with little odom progress before declaring the robot stuck
+stuck_distance_threshold: 0.08  # minimum odom progress over the stuck-detection window to consider the robot moving
+stuck_scan_angle_range: 1.745  # radians (~100 degrees) scan sector used to localize a nearby obstacle when the robot is stuck
+stuck_scan_distance: 0.70      # max scan range used to lock the nearest obstacle during stuck recovery

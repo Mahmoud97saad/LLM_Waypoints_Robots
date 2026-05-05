@@ -1,0 +1,8 @@
+prefix=/home/shehab/LLMRobustModule/catkin_ws/devel
+
+Name: car_v2
+Description: Description of car_v2
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

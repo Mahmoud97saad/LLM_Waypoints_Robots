@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="car_v2">
+ <link name="base_footprint"/>
+
+  <joint name="base_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0.0 0.0 0.010" rpy="0 0 0"/>
+  </joint>
+  
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.067439 -0.00024698 0.18376"
+        rpy="0 0 0" />
+      <mass
+        value="10" />
+      <inertia
+        ixx="0.54922"
+        ixy="-0.0015061"
+        ixz="0.10934"
+        iyy="1.3975"
+        iyz="-7.5815E-05"
+        izz="1.8198" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://car_v2/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.77647 0.75686 0.73725 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://car_v2/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="BL_link">
+    <inertial>
+      <origin
+        xyz="1.191E-09 -0.0071855 1.2104E-09"
+        rpy="0 0 0" />
+      <mass
+        value="0.22002" />
+      <inertia
+        ixx="0.00080995"
+        ixy="-4.7882E-13"
+        ixz="7.5208E-12"
+        iyy="0.0013726"
+        iyz="-1.2389E-13"
+        izz="0.00080995" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://car_v2/meshes/BL_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://car_v2/meshes/BL_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="BL_joint"
+    type="continuous">
+    <origin
+      xyz="-0.19033 0.293 0.007"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="BL_link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="50"
+      velocity="50" />
+    <dynamics
+      damping="0.1" />
+  </joint>
+  <link
+    name="BR_link">
+    <inertial>
+      <origin
+        xyz="1.6741E-09 0.0071855 2.8426E-10"
+        rpy="0 0 0" />
+      <mass
+        value="0.22002" />
+      <inertia
+        ixx="0.00080995"
+        ixy="3.7557E-13"
+        ixz="4.276E-12"
+        iyy="0.0013726"
+        iyz="3.2182E-13"
+        izz="0.00080995" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://car_v2/meshes/BR_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://car_v2/meshes/BR_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="BR_joint"
+    type="continuous">
+    <origin
+      xyz="-0.19033 -0.293 0.007"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="BR_link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="50"
+      velocity="50" />
+    <dynamics
+      damping="0.1" />
+  </joint>
+  <link
+    name="FL_link">
+    <inertial>
+      <origin
+        xyz="3.0764E-06 -0.0071855 1.653E-09"
+        rpy="0 0 0" />
+      <mass
+        value="0.22002" />
+      <inertia
+        ixx="0.00080995"
+        ixy="-2.4087E-07"
+        ixz="5.0482E-12"
+        iyy="0.0013726"
+        iyz="-3.5251E-13"
+        izz="0.00080995" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://car_v2/meshes/FL_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://car_v2/meshes/FL_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="FL_joint"
+    type="continuous">
+    <origin
+      xyz="0.38721 0.293 0.0070019"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="FL_link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="50"
+      velocity="50" />
+  </joint>
+  <link
+    name="FR_link">
+    <inertial>
+      <origin
+        xyz="-3.0776E-06 0.0071855 6.5395E-10"
+        rpy="0 0 0" />
+      <mass
+        value="0.22002" />
+      <inertia
+        ixx="0.00080995"
+        ixy="-2.4087E-07"
+        ixz="-3.9807E-12"
+        iyy="0.0013726"
+        iyz="-7.3148E-14"
+        izz="0.00080995" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://car_v2/meshes/FR_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://car_v2/meshes/FR_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="FR_joint"
+    type="continuous">
+    <origin
+      xyz="0.38731 -0.295 0.0070019"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="FR_link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="50"
+      velocity="50" />
+  </joint>
+
+  <link name="base_scan">
+  <inertial>
+    <mass value="0.01"/>
+    <origin xyz="0 0 0"/>
+    <inertia ixx="1e-5" iyy="1e-5" izz="1e-5"
+             ixy="0" ixz="0" iyz="0"/>
+  </inertial>
+</link>
+
+   <joint name="base_scan_joint" type="fixed">
+  <parent link="base_link"/>
+  <child link="base_scan"/>
+  <origin xyz="0.5 0 0.15" rpy="0 0 0"/>
+</joint>
+
+
+
+  <gazebo>
+  <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
+    <updateRate>100.0</updateRate>
+    <robotNamespace>/</robotNamespace>
+    <leftFrontJoint>FL_joint</leftFrontJoint>
+    <rightFrontJoint>FR_joint</rightFrontJoint>
+    <leftRearJoint>BL_joint</leftRearJoint>
+    <rightRearJoint>BR_joint</rightRearJoint>
+    <wheelSeparation>0.4</wheelSeparation>
+    <wheelDiameter>0.215</wheelDiameter>
+    <robotBaseFrame>base_link</robotBaseFrame>
+    <torque>20</torque>
+    <topicName>cmd_vel</topicName>
+    <broadcastTF>false</broadcastTF>
+  </plugin>
+</gazebo>
+
+<!-- ================= IMU SENSOR (FIXED) ================= -->
+  <gazebo reference="base_link">
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      
+
+      <!-- FIX: correct plugin for Gazebo IMU sensor -->
+      <plugin name="imu_plugin"
+              filename="libgazebo_ros_imu_sensor.so">
+        <topicName>/imu</topicName>
+        <frameName>base_link</frameName>
+        <alwaysOn>true</alwaysOn>
+        <updateRate>100.0</updateRate>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+<gazebo reference="base_scan">
+  <material>Gazebo/DarkGrey</material>
+
+  <sensor type="ray" name="lds_lfcd_sensor">
+    <pose>0 0 0 0 0 0</pose>
+    <visualize>true</visualize>
+    <update_rate>1800</update_rate>
+
+    <ray>
+      <scan>
+        <horizontal>
+          <samples>360</samples>
+          <resolution>1</resolution>
+          <min_angle>0.0</min_angle>
+          <max_angle>6.283185</max_angle>
+        </horizontal>
+      </scan>
+
+      <range>
+        <min>0.08</min>
+        <max>0.6</max>
+        <resolution>0.01</resolution>
+      </range>
+
+      <noise>
+        <type>gaussian</type>
+        <mean>0.0</mean>
+        <stddev>0.01</stddev>
+      </noise>
+    </ray>
+
+    <plugin name="gazebo_ros_laser" filename="libgazebo_ros_laser.so">
+      <topicName>/scan</topicName>
+      <frameName>base_scan</frameName>
+    </plugin>
+  </sensor>
+</gazebo>
+
+</robot>

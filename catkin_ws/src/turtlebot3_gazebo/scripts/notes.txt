@@ -1,0 +1,99 @@
+context windows
+
+poth > input output 
+
+LLM agents 
+
+temperture 
+
+built from transformar 
+
+propoprtes of words 
+
+greedy algrothim 
+
+sampling from first 
+
+0 to 1 
+
+0.9  0.5 0.2 0.1 
+
+token token token 
+
+highest temperteure 
+
+example single call  ollama 
+langchain use pydatic model restrict output with pydatic model 
+
+pydatic simple datatype 
+defintion of data structure 
+output format :
+p1 p2 p3 p4 p5 p6 
+x y 
+
+import uuid
+from datetime import datetime
+
+def agents(llm_client, system_prompt, user_prompt):
+    try:
+        response = llm_client.chat(
+            model='llama3.1', # qwen2.5, llama3.1, mathstral
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ]
+        )
+        answer = response['message']['content']
+        # Prepare logs directory next to scripts folder: ../logs
+        try:
+            base_dir = os.path.dirname(os.path.dirname(__file__))
+            logs_dir = os.path.join(base_dir, 'logs')
+            os.makedirs(logs_dir, exist_ok=True)
+
+            uid = uuid.uuid4().hex
+            log_path = os.path.join(logs_dir, f"{uid}.json")
+
+            log_entry = {
+                'timestamp': datetime.utcnow().isoformat() + 'Z',
+                'system_prompt': system_prompt,
+                'user_prompt': user_prompt,
+                'response_text': answer
+            }
+            # Try to include raw response if JSON-serializable, otherwise fallback to string
+            try:
+                log_entry['response_raw'] = response
+                with open(log_path, 'w') as f:
+                    json.dump(log_entry, f, indent=2)
+            except TypeError:
+                log_entry['response_raw'] = str(response)
+                with open(log_path, 'w') as f:
+                    json.dump(log_entry, f, indent=2)
+
+            rospy.loginfo(f"LLM Response logged to {log_path}")
+        except Exception as e:
+            rospy.logerr(f"Failed to write LLM log file: {e}")
+
+        rospy.loginfo(f"LLM Response:\n{answer}")
+        return answer
+    except Exception as e:
+        rospy.logerr(f"LLM interaction failed: {e}")
+        # Attempt to log the failure with prompts
+        try:
+            base_dir = os.path.dirname(os.path.dirname(__file__))
+            logs_dir = os.path.join(base_dir, 'logs')
+            os.makedirs(logs_dir, exist_ok=True)
+            uid = uuid.uuid4().hex
+            log_path = os.path.join(logs_dir, f"{uid}.json")
+            error_entry = {
+                'timestamp': datetime.utcnow().isoformat() + 'Z',
+                'system_prompt': system_prompt,
+                'user_prompt': user_prompt,
+                'error': str(e)
+            }
+            with open(log_path, 'w') as f:
+                json.dump(error_entry, f, indent=2)
+            rospy.loginfo(f"LLM error logged to {log_path}")
+        except Exception:
+            pass
+        return None
+

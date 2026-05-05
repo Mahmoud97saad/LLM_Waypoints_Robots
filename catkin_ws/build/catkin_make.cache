@@ -1,0 +1,2 @@
+car_v2:ros_essentials_cpp:turtlebot3_description:turtlebot3_gazebo
+-DCATKIN_DEVEL_PREFIX=/home/shehab/LLMRobustModule/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/shehab/LLMRobustModule/catkin_ws/install -G Unix Makefiles

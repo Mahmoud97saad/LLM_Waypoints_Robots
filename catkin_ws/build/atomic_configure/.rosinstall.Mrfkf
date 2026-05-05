@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/shehab/LLMRobustModule/catkin_ws/devel/setup.sh
